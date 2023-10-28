@@ -1,12 +1,12 @@
 from flask import Flask, render_template, Response, request
 import cv2
-import datetime, time
-import os, sys
+from flask_socketio import SocketIO
 import numpy as np
 from threading import Thread
 from camera import manage_contours, get_all_trackbar_positions
 
 app = Flask(__name__, template_folder='./templates')
+socketio = SocketIO(app) 
 
 camera = cv2.VideoCapture(0)
 

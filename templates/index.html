@@ -19,7 +19,75 @@
         <div class="w-full h-full max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden dark:bg-zinc-900">
           <div class="flex justify-between items-center px-6 py-4">
             <div class="flex items-center mx-auto my-auto">
-                <span class="loader"></span>
+                <svg height="36px" width="36px" viewbox="0 0 100 100">
+                    <path>
+                      <animate 
+                         attributeName="d" 
+                         dur="3000ms" 
+                         repeatCount="indefinite"
+                         keyTimes="0;
+                                   .0625;
+                                   .3125;
+                                   .395833333;
+                                   .645833333;
+                                   .833333333;
+                                   1"
+                         calcMode="spline" 
+                         keySplines="0,0,1,1;
+                                     .42,0,1,1;
+                                     0,0,.58,1;
+                                     .42,0,.58,1;
+                                     .42,0,.58,1;
+                                     .42,0,.58,1"
+                             
+                         values="M 0,0 C 50,0 50,0 100,0 100,50 100,50 100,100
+                                 50,100 50,100 0,100 0,50 0,50 0,0 Z;
+                                       
+                                 M 0,0 C 50,0 50,0 100,0 100,50 100,50 100,100
+                                 50,100 50,100 0,100 0,50 0,50 0,0 Z; 
+                  
+                                 M 50,0 C 75,50 75,50 100,100 50,100 50,100 0,100
+                                 12.5,75 12.5,75 25,50 37.5,25 37.5,25 50,0 Z;
+                  
+                                 M 50,0 C 75,50 75,50 100,100 50,100 50,100 0,100
+                                 12.5,75 12.5,75 25,50 37.5,25 37.5,25 50,0 Z;
+                  
+                                 M 100,50 C 100,77.6 77.6,100 50,100 22.4,100 0,77.6
+                                 0,50 0,22.4 22.4,0 50,0 77.6,0 100,22.4 100,50 Z;
+                                       
+                                 M 100,50 C 100,77.6 77.6,100 50,100 22.4,100 0,77.6 
+                                 0,50 0,22.4 22.4,0, 50,0 77.6,0 100,22.4 100,50 Z;
+                                       
+                                 M 100,100 C 50,100 50,100 0,100 0,50 0,50 0,0
+                                 50,0 50,0 100,0 100,50 100,50 100,100 Z;"/>
+                      <animate 
+                         attributeName="fill"
+                         dur="3000ms" 
+                         repeatCount="indefinite"
+                         keyTimes="0;
+                                   .0625;
+                                   .3125;
+                                   .395833333;
+                                   .645833333;
+                                   .833333333;
+                                   1"
+                         calcMode="spline" 
+                         keySplines="0,0,1,1;
+                                     .42,0,1,1;
+                                     0,0,.58,1;
+                                     .42,0,.58,1;
+                                     .42,0,.58,1;
+                                     .42,0,.58,1"
+                         values="#FFA400;
+                                 #FFA400;
+                                 #FF4E42;
+                                 #FF4E42;
+                                 #0CCE6B;
+                                 #0CCE6B;
+                                 #FFA400;"/>
+                    </path>
+                  </svg>
+                  
                 <div class="mx-3">
                 <h3 class="text-lg font-medium text-gray-700 dark:text-gray-200">Scanning...</h3>
                 <p class="text-gray-500 dark:text-gray-400">Looking for identifiers...</p>
@@ -32,10 +100,11 @@
           <div class="relative">
             <img src="/video_feed" class="object-cover rounded-lg" alt="Live Video Stream">
           </div>
-          <div class="px-6 py-4">
+          <div class="px-6 py-4 text-zinc-300">
             <div class="flex items-center">
               <div class="w-full mx-3 flex">
-                <svg width="36" height="36">
+                <h2 class="text-2xl">No match.</h2>
+                <!-- <svg width="36" height="36">
                     <rect width="100" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
                   </svg>
                   <svg height="36" width="36">
@@ -43,56 +112,37 @@
                   </svg>
                   <svg height="36" width="36">
                     <circle cx="18" cy="18" r="18" stroke="none" stroke-width="3" fill="red" />
-                  </svg>
+                  </svg> -->
           </div>
         </div>
       </div>
+
+      <script type="text/javascript">
+        const ws = new WebSocket('ws://your-websocket-server.com');
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            const svg = document.getElementById('overlay');
+
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', data.x);
+            rect.setAttribute('y', data.y);
+            rect.setAttribute('width', data.width);
+            rect.setAttribute('height', data.height);
+            rect.setAttribute('stroke', 'red');
+            rect.setAttribute('stroke-width', '2');
+            rect.setAttribute('fill', 'none');
+
+            svg.appendChild(rect);
+        };
+
+        ws.onclose = (event) => {
+            console.log('WebSocket is closed now.', event);
+        };
+
+        ws.onerror = (err) => {
+            console.error('WebSocket encountered error: ', err.message, 'Closing socket');
+            ws.close();
+        };
+    </script>
 </body>
-
-<style>
-    .loader {
-  width: 48px;
-  height: 48px;
-  display: block;
-  margin:15px auto;
-  position: relative;
-  color: #FFF;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-.loader::after,
-.loader::before {
-  content: '';  
-  box-sizing: border-box;
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  top: 0;
-  background-color: #FFF;
-  border-radius: 50%;
-  animation: scale50 1s infinite ease-in-out;
-}
-.loader::before {
-  top: auto;
-  bottom: 0;
-  background-color: #FF3D00;
-  animation-delay: 0.5s;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} 
-@keyframes scale50 {
-  0%, 100% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1);
-  }
-} 
-</style>
