@@ -10,9 +10,10 @@ def nothing(x):
     pass
 
 def find_max_index(arr):
-    max_index = 0
-    if(arr[1] > arr[0]): max_index = 1
-    if(arr[2] > arr[1]): max_index = 2
+    max_index = -1;
+    for i in range (len(arr)):
+        if(arr[i] > arr[max_index]):
+            max_index = i
     return max_index
 
 # init sliders for all colors
@@ -53,6 +54,7 @@ def get_all_trackbar_positions(name):
     return hsv_arr
 
 def manage_contours(contour, frame, color):
+    ret_val = -1
     for cnt in contour:
         area = cv2.contourArea(cnt)
         approx = cv2.approxPolyDP(cnt, 0.025*cv2.arcLength(cnt, True), True)
@@ -66,24 +68,31 @@ def manage_contours(contour, frame, color):
             if len(approx) == 3:
                 if(color == "blue"):
                     cv2.putText(frame, "Blue Triangle", (x, y), font, 1, (160, 255, 0))
-                    print("Blue Triangle") 
+                    ret_val = 0;
+                    # print("Blue Triangle") 
                 elif(color == "green"):
                     cv2.putText(frame, "Green Triangle", (x, y), font, 1, (160, 255, 0))
-                    print("Green Triangle") 
+                    ret_val = 1;
+                    # print("Green Triangle") 
             elif len(approx) == 4:
                 if(color == "blue"):
                     cv2.putText(frame, "Blue Rectangle", (x, y), font, 1, (160, 255, 0))
-                    print("Blue Rectangle")
+                    ret_val = 2;
+                    # print("Blue Rectangle")
                 elif(color == "green"):
                     cv2.putText(frame, "Green Rectangle", (x, y), font, 1, (160, 255, 0))
-                    print("Green Rectangle")
+                    ret_val = 3;
+                    # print("Green Rectangle")
             elif len(approx) >= 8:
                 if(color == "blue"):
                     cv2.putText(frame, "Blue Circle", (x, y), font, 1, (160, 255, 0))
-                    print("Blue Circle")
+                    ret_val = 4;
+                    # print("Blue Circle")
                 elif(color == "green"):
                     cv2.putText(frame, "Green Circle", (x, y), font, 1, (160, 255, 0))
-                    print("Green Circle")
+                    ret_val = 5;
+                    # print("Green Circle")
+    return ret_val
 
 
 def start_camera():

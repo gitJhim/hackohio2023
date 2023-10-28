@@ -4,7 +4,7 @@ import datetime, time
 import os, sys
 import numpy as np
 from threading import Thread
-from camera import manage_contours, get_all_trackbar_positions
+from camera import manage_contours, find_max_index
 
 app = Flask(__name__, template_folder='./templates')
 
@@ -19,7 +19,26 @@ def index():
 def gen_frames():  # generate frame by frame from camera
 
     global out, capture,rec_frame
+    frame_number = 0;
+    shape_count = [0] * 6
     while True:
+        if frame_number == 75:
+            max_index = find_max_index(shape_count)
+            if(max_index == 0):
+                print("Blue Triangle") 
+            elif(max_index == 1):
+                print("Green Triangle") 
+            elif(max_index == 2):
+                print("Blue Rectangle")
+            elif(max_index == 3):
+                print("Green Rectangle")
+            elif(max_index == 4):
+                print("Blue Circle")
+            elif(max_index == 5):
+                print("Green Circle")
+            frame_number = 0
+            shape_count = [0] * 6
+                
         _, frame = camera.read()
 
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -43,8 +62,15 @@ def gen_frames():  # generate frame by frame from camera
         contours_blue, _ = cv2.findContours(mask_blue, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contours_green, _ = cv2.findContours(mask_green, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-        manage_contours(contours_blue, frame, "blue")
-        manage_contours(contours_green, frame, "green")
+        shape_count_index = manage_contours(contours_blue, frame, "blue")
+        if(shape_count_index > -1):
+            shape_count[shape_count_index] += 1
+
+        shape_count_index = manage_contours(contours_green, frame, "green")
+        if(shape_count_index > -1):
+            shape_count[shape_count_index] += 1
+        
+        frame_number += 1
 
         try:
              ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
