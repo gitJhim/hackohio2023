@@ -2,6 +2,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 </head>
 <!-- <body class="bg-gray-800 text-white">
     <div class="flex flex-col h-screen">
@@ -104,45 +105,83 @@
             <div class="flex items-center">
               <div class="w-full mx-3 flex">
                 <h2 class="text-2xl">No match.</h2>
-                <!-- <svg width="36" height="36">
-                    <rect width="100" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
-                  </svg>
-                  <svg height="36" width="36">
-                    <polygon points="18,1 36,36 1,36" style="fill:green;" />
-                  </svg>
-                  <svg height="36" width="36">
-                    <circle cx="18" cy="18" r="18" stroke="none" stroke-width="3" fill="red" />
-                  </svg> -->
+                <svg id="svg">
+                </svg>
           </div>
         </div>
       </div>
 
       <script type="text/javascript">
-        const ws = new WebSocket('ws://your-websocket-server.com');
+        const socket = io.connect('http://localhost:5000');
+        const svg = document.getElementById('svg');
 
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            const svg = document.getElementById('overlay');
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
 
-            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            rect.setAttribute('x', data.x);
-            rect.setAttribute('y', data.y);
-            rect.setAttribute('width', data.width);
-            rect.setAttribute('height', data.height);
-            rect.setAttribute('stroke', 'red');
-            rect.setAttribute('stroke-width', '2');
-            rect.setAttribute('fill', 'none');
+        socket.on('update', (data) => {
+            console.log('Update received:', data);
+            svg.innerHTML = ""
+            
+            switch(data.data) {
+                case "Blue Rectangle":
+                    var shape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
-            svg.appendChild(rect);
-        };
+                    shape.setAttribute('width', '36');
+                    shape.setAttribute('height', '36');
+                    shape.setAttribute('style', 'fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)');
+                    
+                    svg.appendChild(shape); 
+                    break;
+                case "Blue Triangle":
+                var shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                    shape.setAttribute('points', '18,1 36,36 1,36');
+                    shape.setAttribute('style', 'fill:blue;');
+                    
+                    svg.appendChild(shape);
+                    break;
+                case "Blue Circle":
+                var shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 
-        ws.onclose = (event) => {
-            console.log('WebSocket is closed now.', event);
-        };
+                    shape.setAttribute('cx', '18');
+                    shape.setAttribute('cy', '18');
+                    shape.setAttribute('r', '18');
+                    shape.setAttribute('stroke', 'none');
+                    shape.setAttribute('stroke-width', '3');
+                    shape.setAttribute('fill', 'blue');
 
-        ws.onerror = (err) => {
-            console.error('WebSocket encountered error: ', err.message, 'Closing socket');
-            ws.close();
-        };
+                    svg.appendChild(shape);
+                    break;
+                case "Green Rectangle":
+                var shape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+                    shape.setAttribute('width', '100');
+                    shape.setAttribute('height', '100');
+                    shape.setAttribute('style', 'fill:rgb(0,255,0);stroke-width:3;stroke:rgb(0,0,0)');
+                    
+                    svg.appendChild(shape); 
+                    break;
+                case "Green Triangle":
+                var shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+
+                    shape.setAttribute('points', '18,1 36,36 1,36');
+                    shape.setAttribute('style', 'fill:green;');
+                    
+                    svg.appendChild(shape);
+                    break;
+                case "Green Circle":
+                var shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+                    shape.setAttribute('cx', '18');
+                    shape.setAttribute('cy', '18');
+                    shape.setAttribute('r', '18');
+                    shape.setAttribute('stroke', 'none');
+                    shape.setAttribute('stroke-width', '3');
+                    shape.setAttribute('fill', 'green');
+
+                    svg.appendChild(shape);
+                    break;
+            }
+        });
     </script>
 </body>

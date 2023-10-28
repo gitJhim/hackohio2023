@@ -19,23 +19,29 @@ def index():
 def gen_frames():  # generate frame by frame from camera
 
     global out, capture,rec_frame
-    frame_number = 0;
+    frame_number = 0
     shape_count = [0] * 6
     while True:
         if frame_number == 75:
             max_index = find_max_index(shape_count)
             if(max_index == 0):
                 print("Blue Triangle") 
+                socketio.emit('update', {'data': 'Blue Triangle'})
             elif(max_index == 1):
                 print("Green Triangle") 
+                socketio.emit('update', {'data': 'Green Triangle'})
             elif(max_index == 2):
                 print("Blue Rectangle")
+                socketio.emit('update', {'data': 'Blue Rectangle'})
             elif(max_index == 3):
                 print("Green Rectangle")
+                socketio.emit('update', {'data': 'Green Rectangle'})
             elif(max_index == 4):
                 print("Blue Circle")
+                socketio.emit('update', {'data': 'Blue Circle'})
             elif(max_index == 5):
                 print("Green Circle")
+                socketio.emit('update', {'data': 'Green Circle'})
             frame_number = 0
             shape_count = [0] * 6
                 
