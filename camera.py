@@ -10,17 +10,33 @@ kernel = np.ones((5, 5), np.uint8)
 def nothing(x):
     pass
 
+# def find_max_index(arr):
+#     max_index = -1
+#     first_iteration = True
+#     for i in range (len(arr)):
+#         if(first_iteration):    
+#             if(arr[i] > arr[0]):
+#                 max_index = i
+#             else:
+#                 max_index = 0
+#             first_iteration = False
+#         else:
+#             if(arr[i] > arr[max_index]):
+#                 max_index = i
+#     return max_index
+
 def find_max_index(arr):
-    max_index = -1
-    first_iteration = True
-    for i in range (len(arr)):
-        if(first_iteration):    
-            if(arr[i] > arr[0]):
-                max_index = i
-            max_index = 0
-        else:
-            if(arr[i] > arr[max_index]):
-                max_index = i
+    if not arr:
+        return -1  # Return -1 for an empty array
+
+    max_value = arr[0]
+    max_index = 0
+
+    for i in range(1, len(arr)):
+        if arr[i] > max_value:
+            max_value = arr[i]
+            max_index = i
+
     return max_index
 
 # init sliders for all colors
