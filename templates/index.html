@@ -104,7 +104,7 @@
           <div class="px-6 py-4 text-zinc-300">
             <div class="flex items-center">
               <div class="w-full mx-3 flex">
-                <h2 class="text-2xl">No match.</h2>
+                <h2 class="text-2xl" id="match">No match.</h2>
                 <svg id="svg">
                 </svg>
           </div>
@@ -114,6 +114,7 @@
       <script type="text/javascript">
         const socket = io.connect('http://localhost:5000');
         const svg = document.getElementById('svg');
+        const matchText = document.getElementById('match');
 
         socket.on('connect', () => {
             console.log('Connected to server');
@@ -122,6 +123,7 @@
         socket.on('update', (data) => {
             console.log('Update received:', data);
             svg.innerHTML = ""
+            matchText.textContent = "No Match"
             
             switch(data.data) {
                 case "Blue Rectangle":
@@ -132,6 +134,7 @@
                     shape.setAttribute('style', 'fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)');
                     
                     svg.appendChild(shape); 
+                    matchText.textContent = ""
                     break;
                 case "Blue Triangle":
                 var shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
@@ -139,6 +142,8 @@
                     shape.setAttribute('style', 'fill:blue;');
                     
                     svg.appendChild(shape);
+                    matchText.textContent = ""
+
                     break;
                 case "Blue Circle":
                 var shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -151,15 +156,19 @@
                     shape.setAttribute('fill', 'blue');
 
                     svg.appendChild(shape);
+                    matchText.textContent = ""
+
                     break;
                 case "Green Rectangle":
                 var shape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
-                    shape.setAttribute('width', '100');
-                    shape.setAttribute('height', '100');
+                    shape.setAttribute('width', '36');
+                    shape.setAttribute('height', '36');
                     shape.setAttribute('style', 'fill:rgb(0,255,0);stroke-width:3;stroke:rgb(0,0,0)');
                     
                     svg.appendChild(shape); 
+                    matchText.textContent = ""
+
                     break;
                 case "Green Triangle":
                 var shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
@@ -168,6 +177,8 @@
                     shape.setAttribute('style', 'fill:green;');
                     
                     svg.appendChild(shape);
+                    matchText.textContent = ""
+
                     break;
                 case "Green Circle":
                 var shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -180,6 +191,12 @@
                     shape.setAttribute('fill', 'green');
 
                     svg.appendChild(shape);
+                    matchText.textContent = ""
+
+                    break;
+                case "None":
+                    svg.innerHTML = ""
+                    matchText.textContent = "No Match."
                     break;
             }
         });
