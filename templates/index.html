@@ -4,16 +4,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 </head>
-<!-- <body class="bg-gray-800 text-white">
-    <div class="flex flex-col h-screen">
-        <h1 class="text-3xl">Title</h1>
-        <div class="flex-grow flex items-center justify-center">
-            <div class="w-full max-w-lg p-4 bg-gray-700 rounded-xl shadow-md">
-                    <img src="/video_feed" class="object-cover rounded-lg" alt="Live Video Stream">
-            </div>
-        </div>
-    </div>
-</body> -->
 
 <body>
     <div class="min-h-screen bg-gradient-to-r from-purple-300 via-pink-200 to-red-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 flex items-center justify-center">
@@ -94,19 +84,64 @@
                 <p class="text-gray-500 dark:text-gray-400">Looking for identifiers...</p>
               </div>
             </div>
-            <div class="flex items-center">
-              
+            <div class="flex">
+            
+                      <!-- Dropdown Container -->
+          <div class="relative inline-block text-left">
+            <!-- Trigger Button -->
+            <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="dropdown-button">
+              Options
+              <!-- Icon -->
+              <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" id="dropdown-menu" hidden>
+              <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Performance Hall</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sloopy's Diner</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">U.S Bank</a>
+              </div>
+            </div>
+          </div>
             </div>
           </div>
           <div class="relative">
             <img src="/video_feed" class="object-cover rounded-lg" alt="Live Video Stream">
           </div>
           <div class="px-6 py-4 text-zinc-300">
-            <div class="flex items-center">
-              <div class="w-full mx-3 flex">
-                <h2 class="text-2xl" id="match">No match.</h2>
-                <svg id="svg">
+            <div class="p-4 bg-dark shadow-lg rounded-lg">
+              <div class="flex flex-col">
+                <div class="flex">
+                  <h2 class="text-2xl font-bold mb-4 mr-4">Zone Info</h2>
+                  <svg id="svg" height="36" width="36">
                 </svg>
+                <h2 class="text-2xl font-bold ml-auto text-zinc-600" id="floor"></h2>
+                </div>
+                  <div class="w-full flex">
+                  </div>
+                  <div id="match" class="mb-2">
+                  </div>
+                  <div id="lists" class="mb-2">
+                    <div class="flex justify-evenly mb-4">
+                      <div class="mx-2">
+                        <h4>Locations: </h4>
+                        <ul id="locations-list"></ul>
+                      </div>
+                      <div class="mx-2">
+                        <h4>Ammenities: </h4>
+                        <ul id="ammenities-list"></ul>
+                      </div>
+                    </div>
+                </div>
+                  <img id="floor-image" src="../static/floor-one.png" alt="Zone Image" class="w-full h-full object-cover rounded-md mb-4" />
+                  <p class="text-gray-700 text-center">
+                      Description text here... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies sollicitudin ante nec mattis.
+                  </p>
+              </div>
+          </div>
           </div>
         </div>
       </div>
@@ -115,6 +150,19 @@
         const socket = io.connect('http://localhost:5000');
         const svg = document.getElementById('svg');
         const matchText = document.getElementById('match');
+        const lists = document.getElementById("lists")
+
+        const dropdownButton = document.getElementById('dropdown-button');
+         const dropdownMenu = document.getElementById('dropdown-menu');
+
+        dropdownButton.addEventListener('click', () => {
+          const isHidden = dropdownMenu.getAttribute('hidden') !== null;
+          if (isHidden) {
+            dropdownMenu.removeAttribute('hidden');
+          } else {
+            dropdownMenu.setAttribute('hidden', '');
+          }
+        });
 
         socket.on('connect', () => {
             console.log('Connected to server');
@@ -124,6 +172,7 @@
             console.log('Update received:', data);
             svg.innerHTML = ""
             matchText.textContent = "No Match"
+            lists.hidden = true
             
             switch(data.data) {
                 case "Blue Rectangle":
@@ -143,6 +192,31 @@
                     
                     svg.appendChild(shape);
                     matchText.textContent = ""
+
+                    document.getElementById("floor").textContent = "FLOOR 1";
+
+                    document.getElementById("floor-image").setAttribute("src", "../static/floor-one.png" );
+                    const locationArray = ['Express-OH', 'Union Market', "Woody's Tavern", "Sloopy's Diner"]; 
+                
+                    const locationUL = document.getElementById('locations-list');
+                
+                    locationArray.forEach(item => {
+                        const liElement = document.createElement('li');
+                        liElement.textContent = item;
+                        locationUL.appendChild(liElement);
+                    });
+
+                    const ammenitiesArray =  ["Stairs", 'Elevator', 'Restroom', '...']; 
+                
+                    const ammenitiesUL = document.getElementById('ammenities-list');
+                
+                    ammenitiesArray.forEach(item => {
+                        const liElement = document.createElement('li');
+                        liElement.textContent = item;
+                        ammenitiesUL.appendChild(liElement);
+                    });
+
+                    lists.hidden = false;
 
                     break;
                 case "Blue Circle":
