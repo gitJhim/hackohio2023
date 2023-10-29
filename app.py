@@ -20,10 +20,11 @@ def gen_frames():  # generate frame by frame from camera
 
     global out, capture,rec_frame
     frame_number = 0
-    shape_count = [0] * 6
+    shape_count = [0] * 9
     while True:
-        if frame_number == 75:
+        if frame_number == 45:
             max_index = find_max_index(shape_count)
+            # print(max_index)
             if(max_index == 0):
                 print("Blue Triangle") 
                 socketio.emit('update', {'data': 'Blue Triangle'})
@@ -31,19 +32,29 @@ def gen_frames():  # generate frame by frame from camera
                 print("Green Triangle") 
                 socketio.emit('update', {'data': 'Green Triangle'})
             elif(max_index == 2):
+                print("Red Triangle")
+                socketio.emit('update', {'data': 'Red Triangle'})
+            elif(max_index == 3):
                 print("Blue Rectangle")
                 socketio.emit('update', {'data': 'Blue Rectangle'})
-            elif(max_index == 3):
+            elif(max_index == 4):
                 print("Green Rectangle")
                 socketio.emit('update', {'data': 'Green Rectangle'})
-            elif(max_index == 4):
+            elif(max_index == 5):
+                print("Red Rectangle")
+                socketio.emit('update', {'data': 'Red Rectangle'})
+            elif(max_index == 6):
                 print("Blue Circle")
                 socketio.emit('update', {'data': 'Blue Circle'})
-            elif(max_index == 5):
+            elif(max_index == 7):
                 print("Green Circle")
                 socketio.emit('update', {'data': 'Green Circle'})
+            elif(max_index == 8):
+                print("Red Circle")
+                socketio.emit('update', {'data': 'Red Circle'})
+
             frame_number = 0
-            shape_count = [0] * 6
+            shape_count = [0] * 9
                 
         _, frame = camera.read()
 
@@ -51,6 +62,7 @@ def gen_frames():  # generate frame by frame from camera
 
         blue_vals = [102, 123, 0, 113, 255, 188]
         green_vals = [72, 99, 73, 134, 255, 121]
+        red_vals = [162, 94, 0, 180, 215, 228]
 
         lower_blue = np.array([blue_vals[0], blue_vals[1], blue_vals[2]])
         upper_blue = np.array([blue_vals[3], blue_vals[4], blue_vals[5]])
@@ -58,21 +70,34 @@ def gen_frames():  # generate frame by frame from camera
         lower_green= np.array([green_vals[0], green_vals[1], green_vals[2]])
         upper_green= np.array([green_vals[3], green_vals[4], green_vals[5]])
 
+        lower_red= np.array([red_vals[0], red_vals[1], red_vals[2]])
+        upper_red= np.array([red_vals[3], red_vals[4], red_vals[5]])
+
+
         mask_blue = cv2.inRange(hsv_frame, lower_blue, upper_blue)
         mask_blue = cv2.erode(mask_blue, kernel)
 
         mask_green = cv2.inRange(hsv_frame, lower_green, upper_green)
         mask_green= cv2.erode(mask_green, kernel)
 
+        mask_red = cv2.inRange(hsv_frame, lower_red, upper_red)
+        mask_red = cv2.erode(mask_red, kernel)
+
+
        # Countour detection
         contours_blue, _ = cv2.findContours(mask_blue, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contours_green, _ = cv2.findContours(mask_green, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours_red, _ = cv2.findContours(mask_red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         shape_count_index = manage_contours(contours_blue, frame, "blue")
         if(shape_count_index > -1):
             shape_count[shape_count_index] += 1
 
         shape_count_index = manage_contours(contours_green, frame, "green")
+        if(shape_count_index > -1):
+            shape_count[shape_count_index] += 1
+
+        shape_count_index = manage_contours(contours_red, frame, "red")
         if(shape_count_index > -1):
             shape_count[shape_count_index] += 1
         
