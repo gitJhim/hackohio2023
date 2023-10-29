@@ -136,7 +136,7 @@
                       </div>
                     </div>
                 </div>
-                  <img id="floor-image" src="../static/floor-one.png" alt="Zone Image" class="w-full h-full object-cover rounded-md mb-4" />
+                  <img id="floor-image" src="" alt="" class="w-full h-full object-cover rounded-md mb-4" />
                   <p class="text-gray-700 text-center">
                       Description text here... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies sollicitudin ante nec mattis.
                   </p>
@@ -199,6 +199,7 @@
                     const locationArray = ['Express-OH', 'Union Market', "Woody's Tavern", "Sloopy's Diner"]; 
                 
                     const locationUL = document.getElementById('locations-list');
+                    locationUL.innerHTML = ""
                 
                     locationArray.forEach(item => {
                         const liElement = document.createElement('li');
@@ -209,6 +210,8 @@
                     const ammenitiesArray =  ["Stairs", 'Elevator', 'Restroom', '...']; 
                 
                     const ammenitiesUL = document.getElementById('ammenities-list');
+
+                    ammenitiesUL.innerHTML = ""
                 
                     ammenitiesArray.forEach(item => {
                         const liElement = document.createElement('li');
