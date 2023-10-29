@@ -89,8 +89,8 @@
                       <!-- Dropdown Container -->
           <div class="relative inline-block text-left">
             <!-- Trigger Button -->
-            <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="dropdown-button">
-              Options
+            <button type="button" class="inline-flex justify-center w-64 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500" id="dropdown-button">
+              Choose destination...
               <!-- Icon -->
               <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -163,6 +163,12 @@
             dropdownMenu.setAttribute('hidden', '');
           }
         });
+
+        dropdownMenu.addEventListener('click' , () => {
+          console.log(event.target.innerText)
+          dropdownButton.innerHTML = event.target.innerText
+          dropdownMenu.hidden = true
+        })
 
         socket.on('connect', () => {
             console.log('Connected to server');
@@ -256,8 +262,36 @@
                     svg.appendChild(shape);
                     matchText.textContent = ""
 
+                    document.getElementById("floor").textContent = "FLOOR 1";
+
+                    document.getElementById("floor-image").setAttribute("src", "../static/floor-one.png" );
+                    const locArray = ['Great Hall Meeting Room', 'Performance Hall', "US Bank", "..."]; 
+                
+                    const locUL = document.getElementById('locations-list');
+                    locUL.innerHTML = ""
+                
+                    locArray.forEach(item => {
+                        const liElement = document.createElement('li');
+                        liElement.textContent = item;
+                        locUL.appendChild(liElement);
+                    });
+
+                    const ammenArray =  ["Stairs", 'Elevator', 'Restroom', '...']; 
+                
+                    const ammenUL = document.getElementById('ammenities-list');
+
+                    ammenUL.innerHTML = ""
+                
+                    ammenArray.forEach(item => {
+                        const liElement = document.createElement('li');
+                        liElement.textContent = item;
+                        ammenUL.appendChild(liElement);
+                    });
+
+                    lists.hidden = false;
+
                     break;
-                case "Green Circle":
+                case "Red Circle":
                 var shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 
                     shape.setAttribute('cx', '18');
@@ -265,13 +299,41 @@
                     shape.setAttribute('r', '18');
                     shape.setAttribute('stroke', 'none');
                     shape.setAttribute('stroke-width', '3');
-                    shape.setAttribute('fill', 'green');
+                    shape.setAttribute('fill', 'red');
 
                     svg.appendChild(shape);
                     matchText.textContent = ""
 
+                    document.getElementById("floor").textContent = "FLOOR 3";
+
+                    document.getElementById("floor-image").setAttribute("src", "../static/floor-three.png" );
+                    const locc= ['Undergraduate Admissions', 'Office of SVP Student Life', "Keith B. Key", "..."]; 
+                
+                    const loccUL = document.getElementById('locations-list');
+                    loccUL.innerHTML = ""
+                
+                    locc.forEach(item => {
+                        const liElement = document.createElement('li');
+                        liElement.textContent = item;
+                        loccUL.appendChild(liElement);
+                    });
+
+                    const ammenn =  ["Stairs", 'Elevator', 'Restroom', '...']; 
+                
+                    const ammennUL = document.getElementById('ammenities-list');
+
+                    ammennUL.innerHTML = ""
+                
+                    ammenn.forEach(item => {
+                        const liElement = document.createElement('li');
+                        liElement.textContent = item;
+                        ammennUL.appendChild(liElement);
+                    });
+
+                    lists.hidden = false;
+
                     break;
-                case "edge":
+                case "None":
                     svg.innerHTML = ""
                     matchText.textContent = "No Match."
                     break;
