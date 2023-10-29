@@ -137,9 +137,7 @@
                     </div>
                 </div>
                   <img id="floor-image" src="" alt="" class="w-full h-full object-cover rounded-md mb-4" />
-                  <p class="text-gray-700 text-center">
-                      Description text here... Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultricies sollicitudin ante nec mattis.
-                  </p>
+                  <p class="text-zinc-400 text-center" id="description"></p>
               </div>
           </div>
           </div>
@@ -201,7 +199,12 @@
 
                     document.getElementById("floor").textContent = "FLOOR 1";
 
-                    document.getElementById("floor-image").setAttribute("src", "../static/floor-one.png" );
+                    if(dropdownButton.innerHTML == "Sloopy's Diner") {
+                      document.getElementById("floor-image").setAttribute("src", "../static/floor-one-sloopy.png" );
+                      document.getElementById("description").innerText = "Please follow the directions above to get to Sloopy's Diner."
+                    } else {
+                      document.getElementById("floor-image").setAttribute("src", "../static/floor-one.png" );
+                    }
                     const locationArray = ['Express-OH', 'Union Market', "Woody's Tavern", "Sloopy's Diner"]; 
                 
                     const locationUL = document.getElementById('locations-list');
@@ -253,7 +256,7 @@
                     matchText.textContent = ""
 
                     break;
-                case "Green Triangle":
+                case "Red Triangle":
                 var shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
 
                     shape.setAttribute('points', '18,1 36,36 1,36');
@@ -291,7 +294,7 @@
                     lists.hidden = false;
 
                     break;
-                case "Red Circle":
+                case "Green Circle":
                 var shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 
                     shape.setAttribute('cx', '18');
@@ -311,7 +314,7 @@
                 
                     const loccUL = document.getElementById('locations-list');
                     loccUL.innerHTML = ""
-                
+                    
                     locc.forEach(item => {
                         const liElement = document.createElement('li');
                         liElement.textContent = item;
