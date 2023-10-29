@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import cv2
 import numpy as np
+from time import sleep
 
 font = cv2.FONT_HERSHEY_COMPLEX
 kernel = np.ones((5, 5), np.uint8)
@@ -24,12 +25,12 @@ def find_max_index(arr):
 # init sliders for all colors
 def create_trackbars(name):
     if(name == "Blue"):
-        cv2.createTrackbar("L-H-B", name, 92, 180, nothing)
-        cv2.createTrackbar("L-S-B", name, 76, 255, nothing)
-        cv2.createTrackbar("L-V-B", name, 106, 255, nothing)
-        cv2.createTrackbar("U-H-B", name, 127, 180, nothing)
-        cv2.createTrackbar("U-S-B", name, 218, 255, nothing)
-        cv2.createTrackbar("U-V-B", name, 199, 255, nothing)
+        cv2.createTrackbar("L-H-B", name, 111, 180, nothing)
+        cv2.createTrackbar("L-S-B", name, 147, 255, nothing)
+        cv2.createTrackbar("L-V-B", name, 60, 255, nothing)
+        cv2.createTrackbar("U-H-B", name, 126, 180, nothing)
+        cv2.createTrackbar("U-S-B", name, 189, 255, nothing)
+        cv2.createTrackbar("U-V-B", name, 113, 255, nothing)
     elif(name == "Green"):
         cv2.createTrackbar("L-H-G", name, 66, 180, nothing)
         cv2.createTrackbar("L-S-G", name, 89, 255, nothing)
@@ -128,7 +129,7 @@ def manage_contours(contour, frame, color):
 
 def start_camera():
     # init video
-    video_capture = cv2.VideoCapture(0)
+    video_capture = cv2.VideoCapture('static/test-video.mp4')
 
     # blue slider window
     cv2.namedWindow("Blue")
@@ -150,6 +151,8 @@ def start_camera():
         #    if max_index == 1:
         #        print("")
         _, frame = video_capture.read()
+
+        frame = cv2.resize(frame, (480, 800))
 
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -185,10 +188,11 @@ def start_camera():
         manage_contours(contours_red, frame, "red")
 
         cv2.imshow("Frame", frame)
-        cv2.imshow("Blue Mask", mask_blue)
-        cv2.imshow("Green Mask", mask_green)
-        cv2.imshow("Red Mask", mask_red)
+        # cv2.imshow("Blue Mask", mask_blue)
+        # cv2.imshow("Green Mask", mask_green)
+        # cv2.imshow("Red Mask", mask_red)
 
+        sleep(0.03)
         key = cv2.waitKey(1)
         if(key == 27):
             break
