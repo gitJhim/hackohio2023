@@ -177,6 +177,9 @@
             svg.innerHTML = ""
             matchText.textContent = "No Match"
             lists.hidden = true
+            document.getElementById("floor").textContent = "FLOOR #"
+            document.getElementById("floor-image").setAttribute("src", "")
+            document.getElementById("description").innerText = ""
             
             switch(data.data) {
                 case "Blue Rectangle":
