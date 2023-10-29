@@ -26,26 +26,26 @@ def find_max_index(arr):
 # init sliders for all colors
 def create_trackbars(name):
     if(name == "Blue"):
-        cv2.createTrackbar("L-H-B", name, 111, 180, nothing)
-        cv2.createTrackbar("L-S-B", name, 147, 255, nothing)
-        cv2.createTrackbar("L-V-B", name, 60, 255, nothing)
-        cv2.createTrackbar("U-H-B", name, 126, 180, nothing)
-        cv2.createTrackbar("U-S-B", name, 189, 255, nothing)
-        cv2.createTrackbar("U-V-B", name, 113, 255, nothing)
+        cv2.createTrackbar("L-H-B", name, 112, 180, nothing)
+        cv2.createTrackbar("L-S-B", name, 110, 255, nothing)
+        cv2.createTrackbar("L-V-B", name, 56, 255, nothing)
+        cv2.createTrackbar("U-H-B", name, 124, 180, nothing)
+        cv2.createTrackbar("U-S-B", name, 169, 255, nothing)
+        cv2.createTrackbar("U-V-B", name, 115, 255, nothing)
     elif(name == "Green"):
-        cv2.createTrackbar("L-H-G", name, 66, 180, nothing)
-        cv2.createTrackbar("L-S-G", name, 89, 255, nothing)
-        cv2.createTrackbar("L-V-G", name, 128, 255, nothing)
-        cv2.createTrackbar("U-H-G", name, 98, 180, nothing)
-        cv2.createTrackbar("U-S-G", name, 241, 255, nothing)
-        cv2.createTrackbar("U-V-G", name, 193, 255, nothing)
+        cv2.createTrackbar("L-H-G", name, 67, 180, nothing)
+        cv2.createTrackbar("L-S-G", name, 152, 255, nothing)
+        cv2.createTrackbar("L-V-G", name, 91, 255, nothing)
+        cv2.createTrackbar("U-H-G", name, 87, 180, nothing)
+        cv2.createTrackbar("U-S-G", name, 210, 255, nothing)
+        cv2.createTrackbar("U-V-G", name, 121, 255, nothing)
     elif(name == "Red"):
-        cv2.createTrackbar("L-H-R", name, 162, 180, nothing)
-        cv2.createTrackbar("L-S-R", name, 94, 255, nothing)
+        cv2.createTrackbar("L-H-R", name, 106, 180, nothing)
+        cv2.createTrackbar("L-S-R", name, 243, 255, nothing)
         cv2.createTrackbar("L-V-R", name, 0, 255, nothing)
         cv2.createTrackbar("U-H-R", name, 180, 180, nothing)
-        cv2.createTrackbar("U-S-R", name, 215, 255, nothing)
-        cv2.createTrackbar("U-V-R", name, 228, 255, nothing)
+        cv2.createTrackbar("U-S-R", name, 255, 255, nothing)
+        cv2.createTrackbar("U-V-R", name, 231, 255, nothing)
 
 def get_all_trackbar_positions(name):
     # 0-2 are the lower hsv values 3-5 are the upper vals
@@ -83,7 +83,7 @@ def manage_contours(contour, frame, color):
         x = approx.ravel()[0]
         y = approx.ravel()[1]
 
-        if area > 1000:
+        if area > 1500:
             cv2.drawContours(frame, [approx], 0, (160, 255, 0), 2)
 
             if len(approx) == 3:
@@ -130,7 +130,7 @@ def manage_contours(contour, frame, color):
 
 def start_camera():
     # init video
-    video_capture = cv2.VideoCapture('static/test-video.mp4')
+    video_capture = cv2.VideoCapture('static/final-video.mp4')
 
     # blue slider window
     cv2.namedWindow("Blue")
@@ -153,7 +153,7 @@ def start_camera():
         #        print("")
         _, frame = video_capture.read()
 
-        frame = cv2.resize(frame, (480, 800))
+        frame = cv2.resize(frame, (800, 480))
 
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -191,9 +191,9 @@ def start_camera():
         cv2.imshow("Frame", frame)
         # cv2.imshow("Blue Mask", mask_blue)
         # cv2.imshow("Green Mask", mask_green)
-        # cv2.imshow("Red Mask", mask_red)
+        cv2.imshow("Red Mask", mask_red)
 
-        sleep(0.03)
+        sleep(0.015)
         key = cv2.waitKey(1)
         if(key == 27):
             break
