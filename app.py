@@ -48,11 +48,13 @@ def gen_frames():  # generate frame by frame from camera
                 socketio.emit('update', {'data': 'Blue Circle'})
             elif(max_index == 7):
                 print("Green Circle")
-                socketio.emit('update', {'data': 'Green Circle'})
+                socketio.emit('update', {'data': 'Green Circle'})  
             elif(max_index == 8):
                 print("Red Circle")
                 socketio.emit('update', {'data': 'Red Circle'})
-
+            else:
+                socketio.emit('update', {'data': 'None'})
+                
             frame_number = 0
             shape_count = [0] * 9
                 
