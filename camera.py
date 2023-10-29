@@ -105,40 +105,40 @@ def manage_contours(contour, frame, color):
             if len(approx) == 3:
                 if(color == "blue"):
                     cv2.putText(frame, "Blue Triangle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 0
+                    ret_val = 1
                     # print("Blue Triangle") 
                 elif(color == "green"):
                     cv2.putText(frame, "Green Triangle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 1
+                    ret_val = 2
                     # print("Green Triangle") 
                 elif(color == "red"):
                     cv2.putText(frame, "Red Triangle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 2
+                    ret_val = 3
                     # print("Green Triangle") 
 
             elif len(approx) == 4:
                 if(color == "blue"):
                     cv2.putText(frame, "Blue Rectangle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 3
+                    ret_val = 4
                 elif(color == "green"):
                     cv2.putText(frame, "Green Rectangle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 4
+                    ret_val = 5
                 elif(color == "red"):
                     cv2.putText(frame, "Red Rectangle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 5
+                    ret_val = 6
 
             elif len(approx) >= 8:
                 if(color == "blue"):
                     cv2.putText(frame, "Blue Circle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 6
+                    ret_val = 7
                     # print("Blue Circle")
                 elif(color == "green"):
                     cv2.putText(frame, "Green Circle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 7
+                    ret_val = 8
                     # print("Green Circle")
                 elif(color == "red"):
                     cv2.putText(frame, "Red Circle", (x, y), font, 1, (160, 255, 0))
-                    ret_val = 8
+                    ret_val = 9
 
     print(ret_val)
     return ret_val

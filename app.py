@@ -6,6 +6,8 @@ from threading import Thread
 from camera import manage_contours, find_max_index
 from time import sleep
 
+sleep(2)
+
 app = Flask(__name__, template_folder='./templates')
 socketio = SocketIO(app) 
 
@@ -21,43 +23,43 @@ def gen_frames():  # generate frame by frame from camera
 
     global out, capture,rec_frame
     frame_number = 0
-    shape_count = [0] * 9
+    shape_count = [0] * 10 
     while True:
         if frame_number == 45:
             max_index = find_max_index(shape_count)
             # print(max_index)
-            if(max_index == 0):
+            if(max_index == 1):
                 print("Blue Triangle") 
                 socketio.emit('update', {'data': 'Blue Triangle'})
-            elif(max_index == 1):
+            elif(max_index == 2):
                 print("Green Triangle") 
                 socketio.emit('update', {'data': 'Green Triangle'})
-            elif(max_index == 2):
+            elif(max_index == 3):
                 print("Red Triangle")
                 socketio.emit('update', {'data': 'Red Triangle'})
-            elif(max_index == 3):
+            elif(max_index == 4):
                 print("Blue Rectangle")
                 socketio.emit('update', {'data': 'Blue Rectangle'})
-            elif(max_index == 4):
+            elif(max_index == 5):
                 print("Green Rectangle")
                 socketio.emit('update', {'data': 'Green Rectangle'})
-            elif(max_index == 5):
+            elif(max_index == 6):
                 print("Red Rectangle")
                 socketio.emit('update', {'data': 'Red Rectangle'})
-            elif(max_index == 6):
+            elif(max_index == 7):
                 print("Blue Circle")
                 socketio.emit('update', {'data': 'Blue Circle'})
-            elif(max_index == 7):
+            elif(max_index == 8):
                 print("Green Circle")
                 socketio.emit('update', {'data': 'Green Circle'})  
-            elif(max_index == 8):
+            elif(max_index == 9):
                 print("Red Circle")
                 socketio.emit('update', {'data': 'Red Circle'})
             else:
                 socketio.emit('update', {'data': 'None'})
                 
             frame_number = 0
-            shape_count = [0] * 9
+            shape_count = [0] * 10 
                 
         _, frame = camera.read()
         frame = cv2.resize(frame, (800, 480))
