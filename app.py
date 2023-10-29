@@ -4,11 +4,12 @@ from flask_socketio import SocketIO
 import numpy as np
 from threading import Thread
 from camera import manage_contours, find_max_index
+from time import sleep
 
 app = Flask(__name__, template_folder='./templates')
 socketio = SocketIO(app) 
 
-camera = cv2.VideoCapture('static/test-video.mp4')
+camera = cv2.VideoCapture('static/final-video.mp4')
 
 kernel = np.ones((5, 5), np.uint8)
 
@@ -59,13 +60,13 @@ def gen_frames():  # generate frame by frame from camera
             shape_count = [0] * 9
                 
         _, frame = camera.read()
-        frame = cv2.resize(frame, (480, 800))
+        frame = cv2.resize(frame, (800, 480))
 
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        blue_vals = [111, 147, 60, 126, 189, 113]
-        green_vals = [66, 89, 128, 98, 241, 255]
-        red_vals = [162, 94, 0, 180, 215, 228]
+        blue_vals = [112, 110, 56, 124, 169, 115]
+        green_vals = [67, 152, 91, 87, 210, 121]
+        red_vals = [106, 243, 0, 180, 255, 231]
 
         lower_blue = np.array([blue_vals[0], blue_vals[1], blue_vals[2]])
         upper_blue = np.array([blue_vals[3], blue_vals[4], blue_vals[5]])
@@ -105,7 +106,7 @@ def gen_frames():  # generate frame by frame from camera
             shape_count[shape_count_index] += 1
         
         frame_number += 1
-
+        sleep(0.015)
         try:
              frame = cv2.flip(frame, 1)
              ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
