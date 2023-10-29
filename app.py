@@ -8,7 +8,7 @@ from camera import manage_contours, find_max_index
 app = Flask(__name__, template_folder='./templates')
 socketio = SocketIO(app) 
 
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture('static/test-video.mp4')
 
 kernel = np.ones((5, 5), np.uint8)
 
@@ -59,11 +59,12 @@ def gen_frames():  # generate frame by frame from camera
             shape_count = [0] * 9
                 
         _, frame = camera.read()
+        frame = cv2.resize(frame, (480, 800))
 
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        blue_vals = [102, 123, 0, 113, 255, 188]
-        green_vals = [72, 99, 73, 134, 255, 121]
+        blue_vals = [111, 147, 60, 126, 189, 113]
+        green_vals = [66, 89, 128, 98, 241, 255]
         red_vals = [162, 94, 0, 180, 215, 228]
 
         lower_blue = np.array([blue_vals[0], blue_vals[1], blue_vals[2]])
