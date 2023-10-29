@@ -107,6 +107,7 @@ def gen_frames():  # generate frame by frame from camera
         frame_number += 1
 
         try:
+             frame = cv2.flip(frame, 1)
              ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
              frame = buffer.tobytes()
              yield (b'--frame\r\n'

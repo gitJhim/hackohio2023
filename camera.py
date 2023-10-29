@@ -17,6 +17,7 @@ def find_max_index(arr):
         if(first_iteration):    
             if(arr[i] > arr[0]):
                 max_index = i
+            max_index = 0
         else:
             if(arr[i] > arr[max_index]):
                 max_index = i
@@ -82,7 +83,7 @@ def manage_contours(contour, frame, color):
         x = approx.ravel()[0]
         y = approx.ravel()[1]
 
-        if area > 400:
+        if area > 1000:
             cv2.drawContours(frame, [approx], 0, (160, 255, 0), 2)
 
             if len(approx) == 3:
