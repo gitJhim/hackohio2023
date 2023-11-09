@@ -146,7 +146,7 @@ def manage_contours(contour, frame, color):
 
 def start_camera():
     # init video
-    video_capture = cv2.VideoCapture('static/final-video.mp4')
+    video_capture = cv2.VideoCapture(0)
 
     # blue slider window
     cv2.namedWindow("Blue")
@@ -169,7 +169,7 @@ def start_camera():
         #        print("")
         _, frame = video_capture.read()
 
-        frame = cv2.resize(frame, (800, 480))
+        # frame = cv2.resize(frame, (800, 480))
 
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -205,9 +205,9 @@ def start_camera():
         manage_contours(contours_red, frame, "red")
 
         cv2.imshow("Frame", frame)
-        # cv2.imshow("Blue Mask", mask_blue)
+        cv2.imshow("Blue Mask", mask_blue)
         # cv2.imshow("Green Mask", mask_green)
-        cv2.imshow("Red Mask", mask_red)
+        # cv2.imshow("Red Mask", mask_red)
 
         sleep(0.015)
         key = cv2.waitKey(1)

@@ -11,7 +11,7 @@ sleep(2)
 app = Flask(__name__, template_folder='./templates')
 socketio = SocketIO(app) 
 
-camera = cv2.VideoCapture('static/final-video.mp4')
+camera = cv2.VideoCapture(0)
 
 kernel = np.ones((5, 5), np.uint8)
 
@@ -62,12 +62,11 @@ def gen_frames():  # generate frame by frame from camera
             shape_count = [0] * 10 
                 
         _, frame = camera.read()
-        frame = cv2.resize(frame, (800, 480))
 
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        blue_vals = [112, 110, 56, 124, 169, 115]
-        green_vals = [67, 152, 91, 87, 210, 121]
+        blue_vals = [88, 147, 144, 132, 255, 115]
+        green_vals = [67, 152, 91, 87, 210, 229]
         red_vals = [106, 243, 0, 180, 255, 231]
 
         lower_blue = np.array([blue_vals[0], blue_vals[1], blue_vals[2]])
